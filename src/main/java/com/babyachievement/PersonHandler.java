@@ -14,29 +14,30 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
 
 public class PersonHandler {
-    private final PersonRepository repository;
+    private final UserRepository repository;
 
-    public PersonHandler(PersonRepository repository) {
+    public PersonHandler(UserRepository repository) {
         this.repository = repository;
     }
 
     public Mono<ServerResponse> getPerson(ServerRequest request) {
         int personId = Integer.valueOf(request.pathVariable("id"));
         Mono<ServerResponse> notFound = ServerResponse.notFound().build();
-        Mono<Person> personMono = this.repository.getPerson(personId);
+        Mono<User> personMono = this.repository.getUser(personId);
         return personMono
-                .flatMap(person -> ServerResponse.ok().contentType(APPLICATION_JSON).body(fromObject(person)))
+                .flatMap(user -> ServerResponse.ok().contentType(APPLICATION_JSON).body(fromObject(
+                        user)))
                 .switchIfEmpty(notFound);
     }
 
 
     public Mono<ServerResponse> createPerson(ServerRequest request) {
-        Mono<Person> person = request.bodyToMono(Person.class);
-        return ServerResponse.ok().build(this.repository.savePerson(person));
+        Mono<User> person = request.bodyToMono(User.class);
+        return ServerResponse.ok().build(this.repository.saveUser(person));
     }
 
-    public Mono<ServerResponse> listPeople(ServerRequest request) {
-        Flux<Person> people = this.repository.allPeople();
-        return ServerResponse.ok().contentType(APPLICATION_JSON).body(people, Person.class);
+    public Mono<ServerResponse> listUsers(ServerRequest request) {
+        Flux<User> users = this.repository.allUsers();
+        return ServerResponse.ok().contentType(APPLICATION_JSON).body(users, User.class);
     }
 }

@@ -51,13 +51,13 @@ public class ReactiveServer {
     }
 
     public RouterFunction<ServerResponse> routingFunction() {
-        PersonRepository repository = new DummyPersonRepository();
+        UserRepository repository = new DummyUserRepository();
         PersonHandler handler = new PersonHandler(repository);
 
-        return nest(path("/person"),
+        return nest(path("/user"),
                     nest(accept(APPLICATION_JSON),
                          route(GET("/{id}"), handler::getPerson)
-                                 .andRoute(method(HttpMethod.GET), handler::listPeople)
+                                 .andRoute(method(HttpMethod.GET), handler::listUsers)
                     ).andRoute(POST("/").and(contentType(APPLICATION_JSON)), handler::createPerson));
     }
 

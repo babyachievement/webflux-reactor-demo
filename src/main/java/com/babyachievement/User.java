@@ -7,12 +7,12 @@ package com.babyachievement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Person {
+public class User {
     private final String name;
 
     private final int age;
 
-    public Person(@JsonProperty("name") String name, @JsonProperty("age") int age) {
+    public User(@JsonProperty("name") String name, @JsonProperty("age") int age) {
         this.name = name;
         this.age = age;
     }
@@ -27,7 +27,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "User{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 '}';

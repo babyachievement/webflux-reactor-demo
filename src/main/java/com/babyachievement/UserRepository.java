@@ -8,10 +8,10 @@ package com.babyachievement;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface PersonRepository {
-    Mono<Person> getPerson(int id);
+public interface UserRepository {
+    Mono<User> getUser(int id);
 
-    Flux<Person> allPeople();
+    Flux<User> allUsers();
 
-    Mono<Void> savePerson(Mono<Person> person);
+    Mono<Void> saveUser(Mono<User> user);
 }

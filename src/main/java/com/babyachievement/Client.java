@@ -24,24 +24,26 @@ public class Client {
 
     public static void main(String[] args) throws Exception {
         Client client = new Client();
-        client.createPerson();
-        client.printAllPeople();
+        client.createUser();
+        client.printAllUsers();
     }
 
-    public void printAllPeople() {
-        URI uri = URI.create(String.format("http://%s:%d/person", ReactiveServer.HOST, ReactiveServer.PORT));
+    public void printAllUsers() {
+        URI uri = URI.create(String.format("http://%s:%d/user", ReactiveServer
+                .HOST, ReactiveServer.PORT));
         ClientRequest request = ClientRequest.create(HttpMethod.GET, uri).build();
 
-        Flux<Person> people = exchange.exchange(request)
-                                      .flatMapMany(response -> response.bodyToFlux(Person.class));
+        Flux<User> people = exchange.exchange(request)
+                                    .flatMapMany(response -> response.bodyToFlux(User.class));
 
-        Mono<List<Person>> peopleList = people.collectList();
+        Mono<List<User>> peopleList = people.collectList();
         System.out.println(peopleList.block());
     }
 
-    public void createPerson() {
-        URI uri = URI.create(String.format("http://%s:%d/person", ReactiveServer.HOST, ReactiveServer.PORT));
-        Person jack = new Person("Jack Doe", 16);
+    public void createUser() {
+        URI uri = URI.create(String.format("http://%s:%d/user", ReactiveServer
+                .HOST, ReactiveServer.PORT));
+        User jack = new User("Jack Doe", 16);
 
 
         ClientRequest request = ClientRequest.create(HttpMethod.POST, uri)
